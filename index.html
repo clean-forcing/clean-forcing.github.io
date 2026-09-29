@@ -63,7 +63,7 @@
       .results-carousel .subtitle { font-size: 0.9rem !important; }
       .content.has-text-justified, .content.has-text-justified p { text-align: left !important; font-size: 0.95rem !important; }
       .fig-caption, .note, .video-grid figcaption { font-size: 0.88rem; }
-      .quality-plot { max-width: 78%; margin: 0 auto; display: block; }
+      .quality-wrap { width: 78%; margin: 0 auto; }
       .stat .num { font-size: 1.25rem; }
       .stat .lab { font-size: 0.8rem; }
       .stat { padding: 0.75rem 0.5rem; }
@@ -202,7 +202,7 @@
       <h2 class="title is-3 has-text-centered">Long-Horizon Results</h2>
       <div class="columns is-vcentered">
         <div class="column is-half">
-          <img class="quality-plot" src="static/images/quality_vs_time.png" alt="Per-frame MUSIQ over 50 seconds" style="width:100%">
+          <div class="quality-wrap"><img src="static/images/quality_vs_time.png" alt="Per-frame MUSIQ over 50 seconds" style="width:100%; height:auto"></div>
         </div>
         <div class="column is-half">
           <p class="note">
