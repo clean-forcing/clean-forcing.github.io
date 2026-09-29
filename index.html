@@ -51,6 +51,28 @@
     .prompt { font-style:italic; }
     .note { font-size:0.95rem; color:#4b5563; }
     @media (max-width:600px){ .video-grid { grid-template-columns:1fr; } }
+
+    /* phones */
+    @media (max-width: 768px) {
+      .publication-title { font-size: 1.55rem !important; line-height: 1.25 !important; }
+      .publication-authors { font-size: 0.95rem !important; }
+      .title.is-3 { font-size: 1.45rem !important; }
+      .title.is-4 { font-size: 1.15rem !important; }
+      .title.is-5 { font-size: 1rem !important; }
+      .hero .subtitle, .teaser .subtitle { font-size: 0.95rem !important; line-height: 1.45; }
+      .results-carousel .subtitle { font-size: 0.9rem !important; }
+      .content.has-text-justified, .content.has-text-justified p { text-align: left !important; font-size: 0.95rem !important; }
+      .fig-caption, .note, .video-grid figcaption { font-size: 0.88rem; }
+      .quality-plot { max-width: 78%; margin: 0 auto; display: block; }
+      .stat .num { font-size: 1.25rem; }
+      .stat .lab { font-size: 0.8rem; }
+      .stat { padding: 0.75rem 0.5rem; }
+      .publication-links { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+      .publication-links .link-block { display: block; margin: 0 !important; }
+      .publication-links .button { width: 100%; margin: 0 !important; justify-content: center; }
+      .section { padding: 2rem 1rem; }
+      pre#bibtex-code { font-size: 0.7rem; }
+    }
   </style>
 </head>
 <body>
@@ -165,7 +187,7 @@
   <section class="section">
     <div class="container is-max-desktop">
       <h2 class="title is-3 has-text-centered">Method</h2>
-      <img src="static/images/pipeline.png" alt="Clean Forcing overview" style="width:100%">
+      <a href="static/images/pipeline.png" target="_blank"><img src="static/images/pipeline.png" alt="Clean Forcing overview (tap to enlarge)" style="width:100%"></a>
       <p class="fig-caption">
         <b>(1)</b> At the same noisy state <i>z<sub>t</sub></i>, a drifted history <i>h</i><sub>gen</sub> and a clean history <i>h</i><sub>clean</sub> induce different velocities. About 95% of this gap is systematic across noise seeds, so it is learnable.
         <b>(2)</b> A LoRA student on the frozen base, conditioned on <i>h</i><sub>gen</sub>, learns to match the frozen teacher's prediction under <i>h</i><sub>clean</sub> at the same state. The clean histories can be the base model's own single-shot generations.
@@ -180,7 +202,7 @@
       <h2 class="title is-3 has-text-centered">Long-Horizon Results</h2>
       <div class="columns is-vcentered">
         <div class="column is-half">
-          <img src="static/images/quality_vs_time.png" alt="Per-frame MUSIQ over 50 seconds" style="width:100%">
+          <img class="quality-plot" src="static/images/quality_vs_time.png" alt="Per-frame MUSIQ over 50 seconds" style="width:100%">
         </div>
         <div class="column is-half">
           <p class="note">
