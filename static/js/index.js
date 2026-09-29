@@ -119,24 +119,33 @@ function setupVideoCarouselAutoplay() {
     });
 }
 
-$(document).ready(function() {
-    // Check for click events on the navbar burger icon
+// Native swipe carousel (CSS scroll-snap)
+function swipeBy(d) {
+    const c = document.getElementById('comparison-carousel');
+    if (!c) return;
+    const n = c.children.length, i = Math.round(c.scrollLeft / c.clientWidth);
+    c.scrollTo({ left: ((i + d + n) % n) * c.clientWidth, behavior: 'smooth' });
+}
 
-    var options = {
-		slidesToScroll: 1,
-		slidesToShow: 1,
-		loop: true,
-		infinite: true,
-		autoplay: true,
-		autoplaySpeed: 5000,
+function setupSwipeCarousel() {
+    const c = document.getElementById('comparison-carousel');
+    const dots = document.getElementById('swipe-dots');
+    if (!c || !dots) return;
+    const n = c.children.length;
+    for (let k = 0; k < n; k++) {
+        const s = document.createElement('span');
+        s.onclick = () => c.scrollTo({ left: k * c.clientWidth, behavior: 'smooth' });
+        dots.appendChild(s);
     }
+    const mark = () => {
+        const i = Math.round(c.scrollLeft / c.clientWidth);
+        [...dots.children].forEach((d, k) => d.classList.toggle('on', k === i));
+    };
+    c.addEventListener('scroll', mark, { passive: true });
+    mark();
+}
 
-	// Initialize all div with carousel class
-    var carousels = bulmaCarousel.attach('.carousel', options);
-	
-    bulmaSlider.attach();
-    
-    // Setup video autoplay for carousel
+document.addEventListener('DOMContentLoaded', function() {
+    setupSwipeCarousel();
     setupVideoCarouselAutoplay();
-
-})
+});

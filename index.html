@@ -30,12 +30,9 @@
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
-  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script defer src="static/js/fontawesome.all.min.js"></script>
-  <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/index.js"></script>
 
   <style>
@@ -52,6 +49,16 @@
     .note { font-size:0.95rem; color:#4b5563; }
     @media (max-width:600px){ .video-grid { grid-template-columns:1fr; } }
 
+    .swipe-wrap { position:relative; }
+    .results-carousel.swipe { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding:0.5rem 0; }
+    .results-carousel.swipe::-webkit-scrollbar { display:none; }
+    .results-carousel.swipe .item { flex:0 0 100%; box-sizing:border-box; margin:0; scroll-snap-align:center; }
+    .results-carousel.swipe .item:hover { transform:none; }
+    .swipe-btn { position:absolute; top:40%; z-index:2; width:2.5rem; height:2.5rem; border-radius:50%; border:none; background:rgba(17,24,39,0.7); color:#fff; font-size:1.6rem; line-height:1; cursor:pointer; }
+    .swipe-prev { left:-1.25rem; } .swipe-next { right:-1.25rem; }
+    .swipe-dots { text-align:center; margin-top:0.5rem; }
+    .swipe-dots span { display:inline-block; width:8px; height:8px; margin:0 4px; border-radius:50%; background:#cbd5e1; cursor:pointer; }
+    .swipe-dots span.on { background:#1f2937; }
     /* phones */
     @media (max-width: 768px) {
       .publication-title { font-size: 1.55rem !important; line-height: 1.25 !important; }
@@ -61,6 +68,7 @@
       .title.is-5 { font-size: 1rem !important; }
       .hero .subtitle, .teaser .subtitle { font-size: 0.95rem !important; line-height: 1.45; }
       .results-carousel .subtitle { font-size: 0.9rem !important; }
+      .swipe-btn { display:none; }
       .content.has-text-justified, .content.has-text-justified p { text-align: left !important; font-size: 0.95rem !important; }
       .fig-caption, .note, .video-grid figcaption { font-size: 0.88rem; }
       .quality-wrap { width: 78%; margin: 0 auto; }
@@ -212,7 +220,10 @@
       </div>
       <h3 class="title is-4 has-text-centered" style="margin-top:2rem">Method comparisons over 50&nbsp;s</h3>
       <p class="note has-text-centered">Top row: adapted base, context noising, history guidance. Bottom row: Self Forcing, Clean Forcing (zero real videos), Clean Forcing (+40 real clips). Same prompt and seed in every tile.</p>
-      <div id="comparison-carousel" class="carousel results-carousel">
+      <div class="swipe-wrap">
+      <button class="swipe-btn swipe-prev" aria-label="Previous video" onclick="swipeBy(-1)">&#8249;</button>
+      <button class="swipe-btn swipe-next" aria-label="Next video" onclick="swipeBy(1)">&#8250;</button>
+      <div id="comparison-carousel" class="results-carousel swipe">
         <div class="item"><video poster="static/videos/p098.jpg" controls muted loop playsinline preload="none"><source src="static/videos/p098.mp4" type="video/mp4"></video>
           <h2 class="subtitle has-text-centered prompt">“a grand old mansion… spiral staircase”</h2></div>
         <div class="item"><video poster="static/videos/p101.jpg" controls muted loop playsinline preload="none"><source src="static/videos/p101.mp4" type="video/mp4"></video>
@@ -221,6 +232,8 @@
           <h2 class="subtitle has-text-centered prompt">“a mother bird tenderly feeding her chicks in a cozy nest…”</h2></div>
         <div class="item"><video poster="static/videos/p040.jpg" controls muted loop playsinline preload="none"><source src="static/videos/p040.mp4" type="video/mp4"></video>
           <h2 class="subtitle has-text-centered prompt">“a serene lakeside cabin…”</h2></div>
+      </div>
+      <div class="swipe-dots" id="swipe-dots"></div>
       </div>
     </div>
   </section>
