@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="title" content="Clean Forcing: Drift-Resistant Autoregressive Video Diffusion with a Frozen Base">
+  <meta name="description" content="A 5.9M-parameter LoRA corrector, trained on a frozen autoregressive video diffusion model, removes long-horizon drift with no real videos and no inference cost.">
+  <meta name="keywords" content="autoregressive video diffusion, exposure bias, drift, long video generation, LoRA, frozen base, Clean Forcing">
+  <meta name="author" content="Wenqing Wang, Joonghyuk Shin, Jonathan Tremblay, Chan Hee Song, Yun Fu">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Clean Forcing: Drift-Resistant Autoregressive Video Diffusion with a Frozen Base">
+  <meta property="og:description" content="A 5.9M-parameter LoRA corrector, trained on a frozen autoregressive video diffusion model, removes long-horizon drift with no real videos and no inference cost.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Clean Forcing: Drift-Resistant Autoregressive Video Diffusion with a Frozen Base">
+
+  <meta name="citation_title" content="Clean Forcing: Drift-Resistant Autoregressive Video Diffusion with a Frozen Base">
+  <meta name="citation_author" content="Wang, Wenqing">
+  <meta name="citation_author" content="Shin, Joonghyuk">
+  <meta name="citation_author" content="Tremblay, Jonathan">
+  <meta name="citation_author" content="Song, Chan Hee">
+  <meta name="citation_author" content="Fu, Yun">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_pdf_url" content="static/pdfs/clean_forcing.pdf">
+
+  <title>Clean Forcing: Drift-Resistant Autoregressive Video Diffusion with a Frozen Base</title>
+
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <style>
+    .stat-row { display:flex; flex-wrap:wrap; gap:1rem; justify-content:center; margin-top:1.5rem; }
+    .stat { flex:1 1 150px; max-width:200px; background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:1rem; text-align:center; }
+    .stat .num { font-size:1.5rem; font-weight:700; color:#1f2937; line-height:1.2; }
+    .stat .lab { font-size:0.9rem; color:#4b5563; margin-top:0.35rem; }
+    .fig-caption { font-size:0.95rem; color:#4b5563; margin-top:0.75rem; text-align:left; }
+    .video-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(420px, 1fr)); gap:1.25rem; }
+    .video-grid figure { margin:0; }
+    .video-grid video, .results-carousel video { width:100%; border-radius:6px; background:#000; display:block; }
+    .video-grid figcaption { font-size:0.9rem; color:#4b5563; margin-top:0.4rem; }
+    .prompt { font-style:italic; }
+    .note { font-size:0.95rem; color:#4b5563; }
+    @media (max-width:600px){ .video-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Clean Forcing: Drift-Resistant Autoregressive Video Diffusion with a Frozen Base</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Wenqing Wang<sup>1</sup>,</span>
+              <span class="author-block">Joonghyuk Shin<sup>2</sup>,</span>
+              <span class="author-block">Jonathan Tremblay<sup>3</sup>,</span>
+              <span class="author-block">Chan Hee Song<sup>3</sup>,</span>
+              <span class="author-block">Yun Fu<sup>1</sup></span>
+            </div>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Northeastern University&nbsp;&nbsp;</span>
+              <span class="author-block"><sup>2</sup>Seoul National University&nbsp;&nbsp;</span>
+              <span class="author-block"><sup>3</sup>NVIDIA</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="static/pdfs/clean_forcing.pdf" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm0 1.5L18.5 8H14V3.5zM8 13h8v1.5H8V13zm0 3h8v1.5H8V16zm0-6h4v1.5H8V10z"/></svg></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/wnqw/clean_forcing_release" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <!-- TODO: add once the arXiv ID exists
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/ARXIV_ID" target="_blank" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-file-alt"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teaser -->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <video poster="static/videos/teaser.jpg" id="teaser" autoplay controls muted loop playsinline preload="metadata" style="width:100%">
+          <source src="static/videos/teaser.mp4" type="video/mp4">
+        </video>
+        <h2 class="subtitle has-text-centered">
+          The same frozen autoregressive base over a 50&nbsp;s rollout, before (left) and after (right) merging the <b>Clean Forcing</b> corrector into its weights. Same prompt and seed:
+          <span class="prompt">“champagne is poured into a glass… bubbles rising rapidly.”</span>
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abstract -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Autoregressive (AR) video diffusion models generate streaming video of arbitrary length by conditioning each new chunk of frames on those already generated. However, they suffer from exposure bias, where a model trained on clean context must continue from its own imperfect outputs, and errors compound until quality collapses within seconds (drift). Existing methods either require cluster-scale base retraining, apply training-free inference corrections with inconsistent results, or train frozen-base correctors for sampling and cache errors. We instead find that drift is largely deterministic and therefore learnable, as holding the noisy state fixed while varying only the history reveals a counterfactual velocity gap that is ~95% systematic across noise seeds.
+            </p>
+            <p>
+              Based on this observation, we introduce <em>Clean Forcing</em>, which trains a 5.9M-parameter LoRA corrector on the <em>frozen</em> base model to regress this gap, with a closed-loop stage that adds DAgger-style aggregation and a drift-contraction objective to expose the corrector to its own rollouts. Because the clean histories can be the base model's own single-shot generations, training needs <em>no real videos</em>, and the merged corrector adds no inference cost. In 50&nbsp;s text-to-video generation, Clean Forcing reduces Δ-drift from +11.3 to +1.65 without real video and to <b>−0.16</b> with 40 real clips, improving on the best published result of +3.57 with over <b>150×</b> less data. Extensive experiments demonstrate that Clean Forcing outperforms prior methods in aesthetic quality and data efficiency with reduced drift for long-horizon video generation.
+            </p>
+          </div>
+          <div class="stat-row">
+            <div class="stat"><div class="num">−0.16</div><div class="lab">Δ-drift over 50&nbsp;s, from +11.27 (40 real clips)</div></div>
+            <div class="stat"><div class="num">+1.65</div><div class="lab">Δ-drift with zero real videos</div></div>
+            <div class="stat"><div class="num">5.9M</div><div class="lab">trainable parameters (0.4% of the base)</div></div>
+            <div class="stat"><div class="num">0</div><div class="lab">added inference cost once merged</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Method -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Method</h2>
+      <img src="static/images/pipeline.png" alt="Clean Forcing overview" style="width:100%">
+      <p class="fig-caption">
+        <b>(1)</b> At the same noisy state <i>z<sub>t</sub></i>, a drifted history <i>h</i><sub>gen</sub> and a clean history <i>h</i><sub>clean</sub> induce different velocities. About 95% of this gap is systematic across noise seeds, so it is learnable.
+        <b>(2)</b> A LoRA student on the frozen base, conditioned on <i>h</i><sub>gen</sub>, learns to match the frozen teacher's prediction under <i>h</i><sub>clean</sub> at the same state. The clean histories can be the base model's own single-shot generations.
+        <b>(3)</b> Closed-loop training adds DAgger aggregation over the corrector's own rollouts and a drift-contraction loss that backpropagates the next chunk's error through each committed prediction. At deployment the LoRA merges into the base weights.
+      </p>
+    </div>
+  </section>
+
+  <!-- Results -->
+  <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Long-Horizon Results</h2>
+      <div class="columns is-vcentered">
+        <div class="column is-half">
+          <img src="static/images/quality_vs_time.png" alt="Per-frame MUSIQ over 50 seconds" style="width:100%">
+        </div>
+        <div class="column is-half">
+          <p class="note">
+            <b>Per-frame quality over 50&nbsp;s</b> (mean MUSIQ ± SEM, 128 held-out MovieGen prompts). The adapted base and the training-free heuristics decay within about 15&nbsp;s, while both Clean Forcing variants stay flat, on a frozen base trained on a single GPU in about a day.
+          </p>
+        </div>
+      </div>
+      <h3 class="title is-4 has-text-centered" style="margin-top:2rem">Method comparisons over 50&nbsp;s</h3>
+      <p class="note has-text-centered">Top row: adapted base, context noising, history guidance. Bottom row: Self Forcing, Clean Forcing (zero real videos), Clean Forcing (+40 real clips). Same prompt and seed in every tile.</p>
+      <div id="comparison-carousel" class="carousel results-carousel">
+        <div class="item"><video poster="static/videos/p098.jpg" controls muted loop playsinline preload="none"><source src="static/videos/p098.mp4" type="video/mp4"></video>
+          <h2 class="subtitle has-text-centered prompt">“a grand old mansion… spiral staircase”</h2></div>
+        <div class="item"><video poster="static/videos/p101.jpg" controls muted loop playsinline preload="none"><source src="static/videos/p101.mp4" type="video/mp4"></video>
+          <h2 class="subtitle has-text-centered prompt">“a vintage mechanical clock…”</h2></div>
+        <div class="item"><video poster="static/videos/p113.jpg" controls muted loop playsinline preload="none"><source src="static/videos/p113.mp4" type="video/mp4"></video>
+          <h2 class="subtitle has-text-centered prompt">“a mother bird tenderly feeding her chicks in a cozy nest…”</h2></div>
+        <div class="item"><video poster="static/videos/p040.jpg" controls muted loop playsinline preload="none"><source src="static/videos/p040.mp4" type="video/mp4"></video>
+          <h2 class="subtitle has-text-centered prompt">“a serene lakeside cabin…”</h2></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transfer -->
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Transfer to Other Bases</h2>
+
+      <h3 class="title is-5">Wan2.1-14B (10× larger), same recipe</h3>
+      <div class="video-grid">
+        <figure><video poster="static/videos/wan14b_p032.jpg" controls muted loop playsinline preload="none"><source src="static/videos/wan14b_p032.mp4" type="video/mp4"></video>
+          <figcaption>Adapted 14B base (left) vs. + Clean Forcing (right).</figcaption></figure>
+        <figure><video poster="static/videos/wan14b_p080.jpg" controls muted loop playsinline preload="none"><source src="static/videos/wan14b_p080.mp4" type="video/mp4"></video>
+          <figcaption>Adapted 14B base (left) vs. + Clean Forcing (right).</figcaption></figure>
+      </div>
+
+      <h3 class="title is-5" style="margin-top:2rem">Independently trained Causal-Forcing base, no per-model tuning</h3>
+      <div class="video-grid">
+        <figure><video poster="static/videos/cf_p040.jpg" controls muted loop playsinline preload="none"><source src="static/videos/cf_p040.mp4" type="video/mp4"></video>
+          <figcaption>Causal-Forcing base (left) vs. + Clean Forcing (right).</figcaption></figure>
+        <figure><video poster="static/videos/cf_p101.jpg" controls muted loop playsinline preload="none"><source src="static/videos/cf_p101.mp4" type="video/mp4"></video>
+          <figcaption>Causal-Forcing base (left) vs. + Clean Forcing (right).</figcaption></figure>
+      </div>
+
+      <h3 class="title is-5" style="margin-top:2rem">Other autoregressive world models</h3>
+      <p class="note">HY-WorldPlay (5B, camera-controlled) and a Cosmos-based driving model, shown late in the rollout where the base drifts. These hosts use a reduced correction strength: 0.5α*(t) for HY-WorldPlay and 0.25α*(t) for the driving model.</p>
+      <div class="video-grid" style="margin-top:0.75rem">
+        <figure><video poster="static/videos/hy_worldplay_windmill.jpg" controls muted loop playsinline preload="none"><source src="static/videos/hy_worldplay_windmill.mp4" type="video/mp4"></video>
+          <figcaption>HY-WorldPlay: walking toward a windmill.</figcaption></figure>
+        <figure><video poster="static/videos/hy_worldplay_cabin.jpg" controls muted loop playsinline preload="none"><source src="static/videos/hy_worldplay_cabin.mp4" type="video/mp4"></video>
+          <figcaption>HY-WorldPlay: cabin in snow.</figcaption></figure>
+        <figure><video poster="static/videos/hy_worldplay_castle.jpg" controls muted loop playsinline preload="none"><source src="static/videos/hy_worldplay_castle.mp4" type="video/mp4"></video>
+          <figcaption>HY-WorldPlay: castle.</figcaption></figure>
+        <figure><video poster="static/videos/cosmos_night_drive.jpg" controls muted loop playsinline preload="none"><source src="static/videos/cosmos_night_drive.mp4" type="video/mp4"></video>
+          <figcaption>Cosmos-based driving model: night drive.</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- BibTeX -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@article{wang2026cleanforcing,
+  title={Clean Forcing: Drift-Resistant Autoregressive Video Diffusion with a Frozen Base},
+  author={Wang, Wenqing and Shin, Joonghyuk and Tremblay, Jonathan and Song, Chan Hee and Fu, Yun},
+  journal={arXiv preprint},
+  year={2026}
+}</code></pre>
+    </div>
+  </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+              This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
