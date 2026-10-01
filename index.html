@@ -221,7 +221,7 @@
         </div>
       </div>
       <h3 class="title is-4 has-text-centered" style="margin-top:2rem">Method comparisons over 50&nbsp;s</h3>
-      <p class="note has-text-centered">Top row: adapted base, context noising, history guidance. Bottom row: Self Forcing, Clean Forcing (zero real videos), Clean Forcing (+40 real clips). Same prompt and seed in every tile.</p>
+      <p class="note has-text-centered">Top row: adapted base, context noising, history guidance. Bottom row: Self Forcing, Clean Forcing (zero real videos), Clean Forcing (+40 real clips). All six are built on <a href="https://github.com/Wan-Video/Wan2.1" target="_blank">Wan2.1-T2V-1.3B</a>. Same prompt and seed in every tile.</p>
       <div class="swipe-wrap">
       <button class="swipe-btn swipe-prev" aria-label="Previous video" onclick="swipeBy(-1)">&#8249;</button>
       <button class="swipe-btn swipe-next" aria-label="Next video" onclick="swipeBy(1)">&#8250;</button>
@@ -264,7 +264,7 @@
       </div>
 
       <h3 class="title is-5" style="margin-top:2rem">Other autoregressive world models</h3>
-      <p class="note">HY-WorldPlay (5B, camera-controlled) and <a href="https://research.nvidia.com/labs/sil/projects/omnidreams-blog/" target="_blank">OmniDreams</a> (2B, action-conditioned driving), shown late in the rollout where the base drifts. These hosts use a reduced correction strength: 0.5α*(t) for HY-WorldPlay and 0.25α*(t) for OmniDreams.</p>
+      <p class="note"><a href="https://github.com/Tencent-Hunyuan/HY-WorldPlay" target="_blank">HY-WorldPlay</a> (5B, camera-controlled) and <a href="https://research.nvidia.com/labs/sil/projects/omnidreams-blog/" target="_blank">OmniDreams</a> (2B, action-conditioned driving), shown late in the rollout where the base drifts. These hosts use a reduced correction strength: 0.5α*(t) for HY-WorldPlay and 0.25α*(t) for OmniDreams.</p>
       <div class="video-grid" style="margin-top:0.75rem">
         <figure><video poster="static/videos/hy_worldplay_windmill.jpg" controls muted loop playsinline preload="none"><source src="static/videos/hy_worldplay_windmill.mp4" type="video/mp4"></video>
           <figcaption>HY-WorldPlay: walking toward a windmill.</figcaption></figure>
