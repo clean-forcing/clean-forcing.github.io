@@ -158,12 +158,11 @@
   <section class="hero teaser">
     <div class="container is-max-desktop">
       <div class="hero-body">
-        <video poster="static/videos/teaser.jpg" id="teaser" autoplay controls muted loop playsinline preload="metadata" style="width:100%">
-          <source src="static/videos/teaser.mp4" type="video/mp4">
+        <video poster="static/videos/driving_main.jpg" id="teaser" autoplay controls muted loop playsinline preload="metadata" style="width:100%">
+          <source src="static/videos/driving_main.mp4" type="video/mp4">
         </video>
         <h2 class="subtitle has-text-centered">
-          The same frozen autoregressive base over a 50&nbsp;s rollout, before (left) and after (right) merging the <b>Clean Forcing</b> corrector into its weights. Same prompt and seed:
-          <span class="prompt">“champagne is poured into a glass… bubbles rising rapidly.”</span>
+          An 80&nbsp;s rollout of an autoregressive driving world model built on Cosmos-Predict2.5, before (left) and after (right) applying the <b>Clean Forcing</b> corrector (strength 0.25α*(t)). The base degrades into blotches while the corrected rollout keeps the road scene. Same conditioning and seed.
         </h2>
       </div>
     </div>
@@ -227,6 +226,8 @@
       <button class="swipe-btn swipe-prev" aria-label="Previous video" onclick="swipeBy(-1)">&#8249;</button>
       <button class="swipe-btn swipe-next" aria-label="Next video" onclick="swipeBy(1)">&#8250;</button>
       <div id="comparison-carousel" class="results-carousel swipe">
+        <div class="item"><video poster="static/videos/p027.jpg" controls muted loop playsinline preload="none"><source src="static/videos/p027.mp4" type="video/mp4"></video>
+          <h2 class="subtitle has-text-centered prompt">“champagne is poured into a glass… bubbles rising rapidly”</h2></div>
         <div class="item"><video poster="static/videos/p098.jpg" controls muted loop playsinline preload="none"><source src="static/videos/p098.mp4" type="video/mp4"></video>
           <h2 class="subtitle has-text-centered prompt">“a grand old mansion… spiral staircase”</h2></div>
         <div class="item"><video poster="static/videos/p101.jpg" controls muted loop playsinline preload="none"><source src="static/videos/p101.mp4" type="video/mp4"></video>
