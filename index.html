@@ -222,7 +222,7 @@
       </div>
       <h3 class="title is-4 has-text-centered" style="margin-top:2rem">Method comparisons over 50&nbsp;s</h3>
       <p class="note has-text-centered">Top row: adapted base, context noising, history guidance. Bottom row: Self Forcing, Clean Forcing (zero real videos), Clean Forcing (+40 real clips). All six are built on <a href="https://github.com/Wan-Video/Wan2.1" target="_blank">Wan2.1-T2V-1.3B</a>. Same prompt and seed in every tile.</p>
-      <p class="note has-text-centered" style="margin-top:0.5rem"><i>Note on the periodic pulse.</i> The brightness pulse every ~0.75&nbsp;s in the Clean Forcing tiles comes from the base model, which generates video in 3-latent chunks: the uncorrected adapted base pulses at least as strongly, and an independently trained base (Causal Forcing) shows the same pulse. It is masked by blur in the drifting rows and becomes visible once correction restores detail. Self Forcing retrains the full model at scale and does not show it. A frozen-base corrector does not remove it; see the paper's limitations.</p>
+      <p class="note has-text-centered" style="margin-top:0.5rem"><i>Note:</i> the brightness pulse every ~0.75&nbsp;s comes from the base model's chunked generation, not from Clean Forcing; correction only makes it visible by removing the blur.</p>
       <div class="swipe-wrap">
       <button class="swipe-btn swipe-prev" aria-label="Previous video" onclick="swipeBy(-1)">&#8249;</button>
       <button class="swipe-btn swipe-next" aria-label="Next video" onclick="swipeBy(1)">&#8250;</button>
